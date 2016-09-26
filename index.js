@@ -2,11 +2,7 @@ var map = require('map-stream');
 var notifier = require('node-notifier');
 var path = require('path');
 
-var paths = {
-  'scripts': ['public/scripts/*.js']
-};
-
-var notificador = function ( config ) {
+var notificador = function ( opt ) {
 
 	//Funciones unicamente para el objeto:
 	function merge_options(obj1,obj2){
@@ -17,14 +13,14 @@ var notificador = function ( config ) {
 	}
 
 	//Inicializando las variables default
-	this.config = {
+	config = {
 		"warning_length" : 3,
 		"error_length" : 3
 	};
 
 	//haciendo un merge si config existe
-	if ( config  && typeof config === 'object') {
-		this.config = merge_options(this.config, config);
+	if ( opt  && typeof opt === 'object') {
+		config = merge_options(config, opt);
 	};
 
 	return map(function ( file, cb ) {
@@ -33,14 +29,14 @@ var notificador = function ( config ) {
 			var warnings = [];
 			var codes = { W: 0, E: 0 };
 			var codesFun = { W: function(result) {
-				if ( warnings.length <= config.warning_length ) {
+				if ( warnings.length < config.warning_length ) {
 				  	// console.log(result.error.line);
 				  	warnings.push(result.file + ': line '+ result.error.line + 
 			  							' col ' + result.error.character + 
 			  							', ' + result.error.raw) ;
 			  	}
 			}, E: function(result){
-				if ( errors.length <= config.error_length ) {
+				if ( errors.length < config.error_length ) {
 				  	// console.log(result.error.line);
 				  	errors.push(result.file + ': line '+ result.error.line + 
 			  							' col ' + result.error.character + 
