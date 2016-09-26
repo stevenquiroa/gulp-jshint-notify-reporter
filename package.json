@@ -1,11 +1,14 @@
 {
   "name": "gulp-jshint-notify-reporter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gulp jshint reporter, send system notification when error or waning is triggered",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "contributors": [
+    "Steven Quiroa <stevenkm92@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stevenquiroa/gulp-jshint-notify-reporter.git"
