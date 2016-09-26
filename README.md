@@ -1,6 +1,6 @@
 # gulp-jshint-notify-reporter
 
-Gulp jshint reporter, send system notification when error or waning is triggered.
+Send native system notifications when an error or warning occur.
 
 ## Usage
 
@@ -21,9 +21,9 @@ gulp.task('lint', function() {
 Plugin options:
 
 - `warning_length`
-  - Default is `3`
-  - Define how many warnings show in notification.
+  - Default: `3`
+  - Define how many warnings are shown up.
 
 - `error_length`
-  - Default is `3`
-  - Define how many errors show in notification.
+  - Default: `3`
+  - Define how many errors are shown up.
