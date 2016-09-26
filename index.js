@@ -1,16 +1,31 @@
-const gulp = require('gulp');
-const jshint = require('gulp-jshint');
-const jsValidate = require('gulp-jsvalidate');
-const exec = require('child_process').exec;
-const map = require('map-stream');
-const notifier = require('node-notifier');
-const path = require('path');
+var map = require('map-stream');
+var notifier = require('node-notifier');
+var path = require('path');
 
-const paths = {
+var paths = {
   'scripts': ['public/scripts/*.js']
 };
 
-var notificator = function ( config ) {
+var notificador = function ( config ) {
+
+	//Funciones unicamente para el objeto:
+	function merge_options(obj1,obj2){
+	    var obj3 = {};
+	    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+	    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+	    return obj3;
+	}
+
+	//Inicializando las variables default
+	this.config = {
+		"warning_length" : 3,
+		"error_length" : 3
+	};
+
+	//haciendo un merge si config existe
+	if ( config  && typeof config === 'object') {
+		this.config = merge_options(this.config, config);
+	};
 
 	return map(function ( file, cb ) {
 		if ( ! file.jshint.success ) {
@@ -18,14 +33,14 @@ var notificator = function ( config ) {
 			var warnings = [];
 			var codes = { W: 0, E: 0 };
 			var codesFun = { W: function(result) {
-				if ( warnings.length <= 3 ) {
+				if ( warnings.length <= config.warning_length ) {
 				  	// console.log(result.error.line);
 				  	warnings.push(result.file + ': line '+ result.error.line + 
 			  							' col ' + result.error.character + 
 			  							', ' + result.error.raw) ;
 			  	}
 			}, E: function(result){
-				if ( errors.length <= 3 ) {
+				if ( errors.length <= config.error_length ) {
 				  	// console.log(result.error.line);
 				  	errors.push(result.file + ': line '+ result.error.line + 
 			  							' col ' + result.error.character + 
@@ -63,25 +78,4 @@ var notificator = function ( config ) {
 	});
 }
 
-var scripts = function (event) {
-  // if ( typeof event !== "object" ) { return gulp.src; }
-  var type = event.type;
-  var gulpath = event.path || paths.scripts;
-
-  if (type === 'changed') {
-	 
-    return gulp.src( gulpath )
-      .pipe( jshint() )
-      .pipe( jshint.reporter('default') )
-      .pipe( notificator() );
-  }
-  return gulp.src(gulpath);
-}
-gulp.task('scripts', scripts);
-
-gulp.task('watch', function(){
-  var watcher = gulp.watch( paths.scripts );
-  watcher.on('change', scripts);
-});
-
-gulp.task('default', ['watch', 'scripts']);
+module.exports = notificador;
