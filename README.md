@@ -2,11 +2,17 @@
 
 Send native system notifications when an error or warning occur.
 
+## Instalation
+
+`npm install gulp-jshint-notify-reporter --save`
+
+
 ## Usage
 
 ```js
-var jshint = require('gulp-jshint');
 var gulp   = require('gulp');
+var jshint = require('gulp-jshint');
+var notificator = require('gulp-jshint-notify-reporter');
 
 gulp.task('lint', function() {
   return gulp.src('./lib/*.js')

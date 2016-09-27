@@ -1,6 +1,6 @@
 {
   "name": "gulp-jshint-notify-reporter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Gulp jshint reporter, send system notification when error or waning is triggered",
   "main": "index.js",
   "scripts": {
